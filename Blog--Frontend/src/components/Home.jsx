@@ -39,6 +39,8 @@ function useFadeIn(threshold = 0.15) {
   return { ref, visible };
 }
 
+import bgImage from "../assets/background.jpg";
+
 function Hero({ onBrowseTopics }) {
   const [mounted, setMounted] = useState(false);
 
@@ -56,7 +58,7 @@ function Hero({ onBrowseTopics }) {
     >
       {/* Background Image */}
       <img
-        src="src/assets/background.jpg"
+        src={bgImage}
         alt="Zenith Blogs Background"
         className="absolute inset-0 w-full h-full object-cover"
         style={{

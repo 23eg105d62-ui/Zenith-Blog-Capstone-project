@@ -1,7 +1,7 @@
 import { useAuth } from "../store/authStore";
 import { useNavigate, useLocation } from "react-router";
 import { toast } from "react-hot-toast";
-import axios from "axios";
+import API from "../api/axios";
 import { useEffect, useState } from "react";
 
 import {
@@ -14,15 +14,15 @@ import {
 } from "../styles/common.js";
 
 const TOPICS = [
-  "All",
-  "Artificial Intelligence",
-  "Product Design",
-  "Web Development",
-  "Philosophy",
-  "Climate",
-  "Space",
-  "Health",
-  "Economics",
+    "All",
+    "Artificial Intelligence",
+    "Product Design",
+    "Web Development",
+    "Philosophy",
+    "Climate",
+    "Space",
+    "Health",
+    "Economics",
 ];
 
 function UserProfile() {
@@ -40,12 +40,10 @@ function UserProfile() {
         const getArticles = async () => {
             setLoading(true);
             try {
-                const res = await axios.get("http://localhost:4000/user-api/articles", {
-                    withCredentials: true,
-                });
+                const res = await API.get("/user-api/articles", { withCredentials: true });
                 setArticles(res.data.payload);
             } catch (err) {
-                setError(err.response?.data?.error || "Something went wrong");
+                setError(err.response?.data?.message || "Something went wrong");
             } finally {
                 setLoading(false);
             }
@@ -69,7 +67,7 @@ function UserProfile() {
         navigate(`/article/${articleObj._id}`, { state: articleObj });
     };
 
-    const filteredArticles = articles.filter(article => 
+    const filteredArticles = articles.filter(article =>
         selectedCategory === "All" || article.category === selectedCategory
     );
 
@@ -115,11 +113,10 @@ function UserProfile() {
                         <button
                             key={topic}
                             onClick={() => setSelectedCategory(topic)}
-                            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                                selectedCategory === topic 
-                                ? "bg-[#1d1d1f] text-white shadow-md" 
-                                : "bg-[#f5f5f7] text-[#6e6e73] hover:bg-[#e8e8ed] hover:text-[#1d1d1f]"
-                            }`}
+                            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === topic
+                                    ? "bg-[#1d1d1f] text-white shadow-md"
+                                    : "bg-[#f5f5f7] text-[#6e6e73] hover:bg-[#e8e8ed] hover:text-[#1d1d1f]"
+                                }`}
                         >
                             {topic}
                         </button>
@@ -152,8 +149,8 @@ function UserProfile() {
                             onClick={() => navigateToArticle(articleObj)}
                         >
                             <div className="relative aspect-[16/10] overflow-hidden rounded-2xl mb-5 bg-[#f5f5f7]">
-                                <img 
-                                    src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80`} 
+                                <img
+                                    src={`https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80`}
                                     alt={articleObj.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
@@ -168,7 +165,7 @@ function UserProfile() {
                                 <h3 className="text-xl font-bold text-[#1d1d1f] leading-snug mb-3 group-hover:text-[#0066cc] transition-colors line-clamp-2">
                                     {articleObj.title}
                                 </h3>
-                                
+
                                 <p className="text-[#6e6e73] text-base leading-relaxed mb-5 line-clamp-3">
                                     {articleObj.content.slice(0, 150)}...
                                 </p>

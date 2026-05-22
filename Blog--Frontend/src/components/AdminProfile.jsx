@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api/axios";
 import { toast } from "react-hot-toast";
 import {
     pageBackground,
@@ -26,8 +26,8 @@ function AdminProfile() {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("http://localhost:4000/admin-api/users", { withCredentials: true });
-            setUsers(res.data.payload);
+            const res = await API.get("/admin-api/users", { withCredentials: true });
+            setUsers(res.data.payload || []);
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to fetch users");
         } finally {
@@ -42,11 +42,7 @@ function AdminProfile() {
     const handleToggleBlock = async (userId, currentlyBlocked) => {
         const action = currentlyBlocked ? "unblock" : "block";
         try {
-            const res = await axios.put(
-                `http://localhost:4000/admin-api/users/${userId}/${action}`,
-                {},
-                { withCredentials: true }
-            );
+            const res = await API.put(`/admin-api/users/${userId}/${action}`, {}, { withCredentials: true });
             toast.success(res.data.message);
             // Update local state
             setUsers(users.map(u => u._id === userId ? { ...u, isBlocked: !currentlyBlocked } : u));
@@ -55,7 +51,7 @@ function AdminProfile() {
         }
     };
 
-    const filteredUsers = users.filter(user => 
+    const filteredUsers = users.filter(user =>
         user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.role.toLowerCase().includes(searchQuery.toLowerCase())
