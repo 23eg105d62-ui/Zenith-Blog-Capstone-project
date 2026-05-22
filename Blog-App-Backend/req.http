@@ -1,0 +1,176 @@
+### Author Register
+POST http://localhost:4000/author-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Samuel",
+  "lastName": "Jackson",
+  "email": "samjackson@mail.com",
+  "password": "Sam@123",
+  "profileImageUrl": "https://images.unsplash.com/photo-1626105985459-1bf13b3d1550?q=80&w=772&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+}
+
+
+### Author Login
+POST http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "samjackson@mail.com",
+  "password": "Sam@123"
+  
+}
+
+
+
+### Create article (AUTHOR)
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+  "author":"69cb7585360a560082ba7527",
+  "title":"AI and the Finance Industry: Transforming the Future of Banking and Investment",
+  "category":"technology",
+  "content":"The finance industry has been undergoing a significant transformation in recent years, largely driven by advancements in artificial intelligence (AI). AI technologies are revolutionizing the way financial institutions operate, from improving customer service to enhancing risk management and optimizing investment strategies. In this article, we will explore how AI is reshaping the finance industry and what the future holds for banking and investment. As AI continues to evolve, it is expected to play an increasingly critical role in the finance industry, driving innovation and creating new opportunities for growth and efficiency. We will delve into the various applications of AI in finance, including chatbots for customer service, algorithmic trading, fraud detection, and personalized financial advice. Additionally, we will discuss the challenges and ethical considerations associated with the adoption of AI in finance, as well as the potential impact on jobs and the workforce. By understanding the transformative power of AI in the finance industry, we can better prepare for the future and harness its potential to create a more efficient and inclusive financial ecosystem. The integration of AI in finance is not just a trend but a fundamental shift that is reshaping the industry and paving the way for a more innovative and dynamic future. As we explore the various applications of AI in finance, it is important to recognize that while AI offers numerous benefits, it also presents challenges that need to be addressed. These include concerns about data privacy, algorithmic bias, and the potential for job displacement. However, with careful implementation and regulation, AI has the potential to drive significant positive change in the finance industry, ultimately benefiting both institutions and consumers alike."
+
+}
+
+###Read articles of an author
+GET http://localhost:4000/author-api/articles/69cb7585360a560082ba7527
+
+
+### Update article (AUTHOR)
+PUT http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+  "author":"69cb73a5360a560082ba751c",
+  "articleId":"69cb7425360a560082ba751f",
+  "title":"If I am not a programmer, then what am I?",
+  "category":"programming",
+  "content":"I am a problem solver, a creative thinker, and a lifelong learner. Programming has taught me to approach challenges with logic and creativity, to break down complex problems into manageable pieces, and to continuously adapt and learn new technologies. Whether I'm writing code or simply thinking about how to improve processes, programming has become an integral part of who I am and how I navigate the world around me."
+}
+
+
+
+### Delete article
+PATCH http://localhost:4000/author-api/articles/69cb7425360a560082ba751f/status
+Content-Type: application/json
+
+{ "isArticleActive": true }
+
+
+### Logout
+GET http://localhost:4000/common-api/logout
+
+
+
+
+
+### Change password
+PUT http://localhost:4000/common-api/change-password
+Content-Type: application/json
+
+{
+  "email":"test@example.com",
+  "currentPassword":"test",
+  "newPassword":"test1"
+  
+}
+
+
+### User Register
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Janice",
+  "lastName": "Gould",
+  "email": "janice.user@example.com",
+  "password": "Jan@12345",
+  "profileImageUrl": "https://example.com/avatars/user.png"
+}
+
+
+
+### User Login
+POST http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "janice.user@example.com",
+  "password": "Jan@12345"
+ 
+}
+
+
+
+### Read articles of all authors by User
+GET http://localhost:4000/user-api/articles
+
+
+### Add comment to an article
+PUT http://localhost:4000/user-api/articles
+Content-Type: application/json
+
+{
+  "user":"698d2b0210353dc78e6e6e15",
+  "articleId":"69cb7686360a560082ba7530",
+  "comment":"This is a very insightful article! I appreciate the depth of analysis and the practical examples provided. It has given me a lot to think about regarding the future of AI in finance. Thank you for sharing your expertise on this topic!"
+ 
+}
+
+
+### Admin APIs
+### Register admin
+POST http://localhost:4000/admin-api/users
+Content-Type: application/json
+
+{
+  "firstName": "Admin1",
+  "lastName": "User",
+  "email": "admin1@gmail.com",
+  "password": "Admin1@123",
+  "role": "ADMIN",
+  "profileImageUrl": "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-host-and-admin-marketing-job-vacancies-vector-png-image_6480101.png"
+}
+### Admin Login
+POST http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+  "email": "admin1@gmail.com",
+  "password": "Admin1@123"
+}
+### Read all articles
+GET http://localhost:4000/admin-api/articles
+
+### Read all users
+GET http://localhost:4000/admin-api/users
+
+### Block user
+PUT http://localhost:4000/admin-api/users/69cb7585360a560082ba7527/block
+Content-Type: application/json
+
+{
+  "userId": "69cb7585360a560082ba7527"
+}
+
+### Unblock user
+PUT http://localhost:4000/admin-api/users/69cb7585360a560082ba7527/unblock
+Content-Type: application/json
+
+{
+  "userId": "69cb7585360a560082ba7527"
+}
+
+### Delete or restore article
+PATCH http://localhost:4000/admin-api/articles/698d3a41ba3c49843f1146e5/status
+Content-Type: application/json
+
+{
+  "isArticleActive": true
+}
+
+
+
