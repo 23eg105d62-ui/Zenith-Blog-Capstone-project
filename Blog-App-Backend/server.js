@@ -18,10 +18,21 @@ const allowedOrigins = new Set([
     "http://localhost:5174",
 ]);
 const DEFAULT_FRONTEND_URL = "https://zenith-blog-capstone-project.vercel.app";
+
+// Normalize origins so trailing slashes don't break strict matching
+// e.g. "https://example.com/" -> "https://example.com"
+const normalizeOrigin = (value) => {
+    if (typeof value !== "string") return value;
+    return value.replace(/\/+$/, "");
+};
+
 const frontendUrls = process.env.FRONTEND_URL
     ? process.env.FRONTEND_URL.split(",").map((url) => url.trim()).filter(Boolean)
     : [DEFAULT_FRONTEND_URL];
-frontendUrls.forEach((url) => allowedOrigins.add(url));
+
+frontendUrls.forEach((url) => allowedOrigins.add(normalizeOrigin(url)));
+// also normalize the static ones just in case
+["http://localhost:5173", "http://localhost:5174"].forEach((url) => allowedOrigins.add(normalizeOrigin(url)));
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -29,7 +40,9 @@ const corsOptions = {
             callback(null, true);
             return;
         }
-        if (allowedOrigins.has(origin)) {
+
+        const normalizedRequestOrigin = normalizeOrigin(origin);
+        if (allowedOrigins.has(normalizedRequestOrigin)) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
