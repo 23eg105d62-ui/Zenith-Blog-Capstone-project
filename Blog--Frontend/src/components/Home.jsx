@@ -7,6 +7,8 @@ import {
   tagClass,
 } from "../styles/common";
 
+import bgImage from "../assets/hero.png";
+
 const TOPICS = [
   "Artificial Intelligence",
   "Product Design",
@@ -39,7 +41,6 @@ function useFadeIn(threshold = 0.15) {
   return { ref, visible };
 }
 
-import bgImage from "../assets/background.jpg";
 
 function Hero({ onBrowseTopics }) {
   const [mounted, setMounted] = useState(false);
@@ -50,12 +51,7 @@ function Hero({ onBrowseTopics }) {
   }, []);
 
   return (
-    <section
-      className="relative w-full min-h-screen flex items-center overflow-hidden"
-      style={{
-        marginTop: "-64px",
-      }}
-    >
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-20 sm:pt-24">
       {/* Background Image */}
       <img
         src={bgImage}
@@ -66,10 +62,6 @@ function Hero({ onBrowseTopics }) {
           filter: "brightness(1.02) saturate(1.05)",
           transform: mounted ? "scale(1)" : "scale(1.04)",
           transition: "transform 1.2s ease",
-          width: "100%",
-          height: "90%",
-          padding: "20px 1px",
-          margin: "0 0 -40px 0",
         }}
       />
 
@@ -84,7 +76,7 @@ function Hero({ onBrowseTopics }) {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1200px] mx-auto px-8 w-full">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-10 w-full">
         <div className="max-w-3xl">
 
           {/* Subtitle */}
@@ -107,7 +99,7 @@ function Hero({ onBrowseTopics }) {
           {/* Heading */}
           <h1
             style={{
-              fontSize: "clamp(4rem, 9vw, 7rem)",
+              fontSize: "clamp(3rem, 8vw, 6rem)",
               fontWeight: 900,
               lineHeight: 0.95,
               letterSpacing: "-0.06em",
@@ -145,7 +137,7 @@ function Hero({ onBrowseTopics }) {
 
           {/* Buttons */}
           <div
-            className="flex gap-4 mt-10"
+            className="flex flex-col sm:flex-row gap-4 mt-10"
             style={{
               opacity: mounted ? 1 : 0,
               transform: mounted ? "translateY(0)" : "translateY(14px)",
@@ -153,29 +145,14 @@ function Hero({ onBrowseTopics }) {
             }}
           >
             <button
-              className={primaryBtn}
-              style={{
-                padding: "14px 32px",
-                fontSize: "0.95rem",
-                borderRadius: "999px",
-              }}
+              className={`${primaryBtn} w-full sm:w-auto px-6 py-3`}
               onClick={onBrowseTopics}
             >
               Browse Topics
             </button>
 
             <button
-              style={{
-                padding: "14px 28px",
-                borderRadius: "999px",
-                border: "1px solid rgba(0,0,0,0.08)",
-                background: "rgba(255,255,255,0.45)",
-                backdropFilter: "blur(10px)",
-                color: "#1d1d1f",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.25s ease",
-              }}
+              className="w-full sm:w-auto rounded-full border border-[#d2d2d7] bg-white/75 text-[#1d1d1f] font-semibold px-6 py-3 transition-all duration-200 hover:bg-white"
             >
               Explore Articles
             </button>
@@ -220,7 +197,7 @@ function TopicsRail({ onTopicClick }) {
         Dive into the subjects that shape our world.
       </p>
 
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
         {TOPICS.map((topic, i) => (
           <button
             key={topic}
@@ -263,7 +240,7 @@ function NewsletterBanner() {
   return (
     <div
       ref={ref}
-      className="rounded-2xl bg-[#f5f5f7] px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-10 my-14"
+      className="rounded-2xl bg-[#f5f5f7] px-6 sm:px-10 py-14 flex flex-col lg:flex-row items-center justify-between gap-8 my-14"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(24px)",
@@ -304,28 +281,16 @@ function NewsletterBanner() {
           ✓ You're on the list. Check your inbox.
         </div>
       ) : (
-        <div className="flex gap-2 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
           <input
             type="email"
             placeholder="your@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-            style={{
-              background: "white",
-              border: "1px solid #d2d2d7",
-              borderRadius: "12px",
-              padding: "10px 16px",
-              color: "#1d1d1f",
-              fontSize: "0.875rem",
-              width: "260px",
-              outline: "none",
-              transition: "border-color 0.2s ease",
-            }}
-            onFocus={(e) => (e.target.style.borderColor = "#0066cc")}
-            onBlur={(e) => (e.target.style.borderColor = "#d2d2d7")}
+            className="min-w-0 w-full bg-white border border-[#d2d2d7] rounded-2xl px-4 py-3 text-[#1d1d1f] text-sm outline-none transition focus:border-[#0066cc] focus:ring-2 focus:ring-[#0066cc]/10"
           />
-          <button className={primaryBtn} onClick={handleSubmit}>
+          <button className={`${primaryBtn} w-full sm:w-auto`} onClick={handleSubmit}>
             Subscribe
           </button>
         </div>

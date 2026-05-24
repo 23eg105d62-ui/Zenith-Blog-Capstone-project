@@ -39,8 +39,8 @@ function Header() {
         if (!user) return "/";
         switch (user.role) {
             case "AUTHOR": return "/author-profile";
-            case "ADMIN":  return "/admin-profile";
-            default:       return "/user-profile";
+            case "ADMIN": return "/admin-profile";
+            default: return "/user-profile";
         }
     };
 
@@ -49,78 +49,76 @@ function Header() {
     return (
         <>
             <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/70 backdrop-saturate-150 backdrop-blur-md shadow-sm border-b border-[#e8e8ed]' : 'bg-transparent'}`}>
-                <div className="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
-                   
-                    <NavLink to="/" className={navBrandClass} style={{ fontSize: "2.4rem", fontWeight: 800, letterSpacing: "-0.03em", color: "#1d1d1f" }}>
+                <div className="max-w-[1200px] mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+
+                    <NavLink to="/" className={`${navBrandClass} text-2xl md:text-[2.4rem] font-extrabold tracking-tight text-[#1d1d1f]`}>
                         <span className="text-[#0066cc]">Z</span>enith
                     </NavLink>
 
                     <div className="hidden md:flex items-center gap-8 ml-auto">
 
-    {NAV_LINKS.map(({ label, to, end }) => (
-        <NavLink
-            key={label}
-            to={to}
-            end={end}
-            className={({ isActive }) =>
-                `text-sm font-medium transition-colors ${
-                    isActive
-                        ? 'text-[#0066cc]'
-                        : 'text-[#6e6e73] hover:text-[#1d1d1f]'
-                }`
-            }
-        >
-            {label}
-        </NavLink>
-    ))}
+                        {NAV_LINKS.map(({ label, to, end }) => (
+                            <NavLink
+                                key={label}
+                                to={to}
+                                end={end}
+                                className={({ isActive }) =>
+                                    `text-sm font-medium transition-colors ${isActive
+                                        ? 'text-[#0066cc]'
+                                        : 'text-[#6e6e73] hover:text-[#1d1d1f]'
+                                    }`
+                                }
+                            >
+                                {label}
+                            </NavLink>
+                        ))}
 
-    {isAuthenticated && (
-        <NavLink
-            to={getProfilePath()}
-            className={({ isActive }) =>
-                `text-sm font-medium transition-colors ${
-                    isActive
-                        ? 'text-[#0066cc]'
-                        : 'text-[#6e6e73] hover:text-[#1d1d1f]'
-                }`
-            }
-        >
-            Articles
-        </NavLink>
-    )}
+                        {isAuthenticated && (
+                            <NavLink
+                                to={getProfilePath()}
+                                className={({ isActive }) =>
+                                    `text-sm font-medium transition-colors ${isActive
+                                        ? 'text-[#0066cc]'
+                                        : 'text-[#6e6e73] hover:text-[#1d1d1f]'
+                                    }`
+                                }
+                            >
+                                Articles
+                            </NavLink>
+                        )}
 
-    {!isAuthenticated ? (
-        <>
-            <NavLink to="/login">
-                <button className="text-sm font-medium text-[#1d1d1f] hover:text-[#0066cc] transition-colors px-4 py-2">
-                    Log in
-                </button>
-            </NavLink>
+                        {!isAuthenticated ? (
+                            <>
+                                <NavLink to="/login">
+                                    <button className="text-sm font-medium text-[#1d1d1f] hover:text-[#0066cc] transition-colors px-4 py-2">
+                                        Log in
+                                    </button>
+                                </NavLink>
 
-            <NavLink to="/register">
-                <button className={`${primaryBtn} shadow-md shadow-[#0066cc]/20 hover:shadow-lg hover:shadow-[#0066cc]/30 transition-all transform hover:-translate-y-[1px]`}>
-                    Get Started
-                </button>
-            </NavLink>
-        </>
-    ) : (
-        <div className="flex items-center gap-4">
-            <div className="text-sm font-medium text-[#1d1d1f] bg-[#f5f5f7] px-3 py-1.5 rounded-full flex items-center gap-2">
-                <span className="w-5 h-5 rounded-full bg-[#0066cc] text-white flex items-center justify-center text-[10px] font-bold">
-                    {user?.firstName?.[0] || "U"}
-                </span>
-                {user?.firstName}
-            </div>
+                                <NavLink to="/register">
+                                    <button className={`${primaryBtn} shadow-md shadow-[#0066cc]/20 hover:shadow-lg hover:shadow-[#0066cc]/30 transition-all transform hover:-translate-y-[1px]`}>
+                                        Get Started
+                                    </button>
+                                </NavLink>
+                            </>
+                        ) : (
+                            <div className="flex items-center gap-4">
+                                <div className="text-sm font-medium text-[#1d1d1f] bg-[#f5f5f7] px-3 py-1.5 rounded-full flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-[#0066cc] text-white flex items-center justify-center text-[10px] font-bold">
+                                        {user?.firstName?.[0] || "U"}
+                                    </span>
+                                    {user?.firstName}
+                                </div>
 
-            <button
-                className="text-sm font-medium text-[#ff3b30] hover:text-[#d92b22] transition-colors px-2 py-2"
-                onClick={handleLogout}
-            >
-                Logout
-            </button>
-        </div>
-    )}
-</div>
+                                <button
+                                    className="text-sm font-medium text-[#ff3b30] hover:text-[#d92b22] transition-colors px-2 py-2"
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
 
                     <button
                         className="md:hidden flex flex-col justify-center items-center gap-1.25 w-8 h-8 cursor-pointer"
@@ -183,10 +181,9 @@ function Header() {
                             end={end}
                             onClick={closeDrawer}
                             className={({ isActive }) =>
-                                `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                                    isActive
-                                        ? "bg-[#f0f6ff] text-[#0066cc]"
-                                        : "text-[#1d1d1f] hover:bg-[#f5f5f7]"
+                                `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${isActive
+                                    ? "bg-[#f0f6ff] text-[#0066cc]"
+                                    : "text-[#1d1d1f] hover:bg-[#f5f5f7]"
                                 }`
                             }
                         >
@@ -199,10 +196,9 @@ function Header() {
                             to={getProfilePath()}
                             onClick={closeDrawer}
                             className={({ isActive }) =>
-                                `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                                    isActive
-                                        ? "bg-[#f0f6ff] text-[#0066cc]"
-                                        : "text-[#1d1d1f] hover:bg-[#f5f5f7]"
+                                `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${isActive
+                                    ? "bg-[#f0f6ff] text-[#0066cc]"
+                                    : "text-[#1d1d1f] hover:bg-[#f5f5f7]"
                                 }`
                             }
                         >

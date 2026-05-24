@@ -13,11 +13,32 @@ config(); //process.env
 //Create express application
 const app = exp();
 //use cors middleware
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
-if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL);
-}
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+const allowedOrigins = new Set([
+    "http://localhost:5173",
+    "http://localhost:5174",
+]);
+const DEFAULT_FRONTEND_URL = "https://zenith-blog-capstone-project.vercel.app";
+const frontendUrls = process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(",").map((url) => url.trim()).filter(Boolean)
+    : [DEFAULT_FRONTEND_URL];
+frontendUrls.forEach((url) => allowedOrigins.add(url));
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (!origin) {
+            callback(null, true);
+            return;
+        }
+        if (allowedOrigins.has(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 //add body parser middleware
 app.use(exp.json());
 //add cookie parser middleware
@@ -50,7 +71,7 @@ connectDB();
 // Error handling middleware
 app.use((err, req, res, next) => {
     const status = err.status || err.statusCode || 500;
-  
+
 
     // Mongoose validation errors
     if (err.name === "ValidationError") {
