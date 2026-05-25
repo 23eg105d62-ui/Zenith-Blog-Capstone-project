@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { verifyToken } from "../middleware/verifyToken.js";
 export const commonRouter = exp.Router();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 //login
 commonRouter.post("/login", async (req, res) => {
   //get user cred object
@@ -14,8 +16,8 @@ commonRouter.post("/login", async (req, res) => {
   //save tokan as httpOnly cookie
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
   });
   //send res
   res.status(200).json({ message: "login success", payload: user });
@@ -26,8 +28,8 @@ commonRouter.get("/logout", (req, res) => {
   // Clear the cookie named 'token'
   res.clearCookie("token", {
     httpOnly: true, // Must match original  settings
-    secure: false, // Must match original  settings
-    sameSite: "lax", // Must match original  settings
+    secure: isProduction, // Must match original  settings
+    sameSite: isProduction ? "none" : "lax", // Must match original  settings
   });
 
   res.status(200).json({ message: "Logged out successfully" });
