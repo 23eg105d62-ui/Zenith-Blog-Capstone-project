@@ -42,7 +42,10 @@ const corsOptions = {
         }
 
         const normalizedRequestOrigin = normalizeOrigin(origin);
-        if (allowedOrigins.has(normalizedRequestOrigin)) {
+        if (
+            allowedOrigins.has(normalizedRequestOrigin) ||
+            (normalizedRequestOrigin.includes("zenith-blog-capstone") && normalizedRequestOrigin.endsWith(".vercel.app"))
+        ) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
@@ -82,9 +85,12 @@ connectDB();
 
 
 // Error handling middleware
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use((err, req, res, next) => {
     const status = err.status || err.statusCode || 500;
-
+    let message = err.message || "Internal Server Error";
+    let details;
 
     // Mongoose validation errors
     if (err.name === "ValidationError") {

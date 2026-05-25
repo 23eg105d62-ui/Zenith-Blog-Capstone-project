@@ -7,7 +7,7 @@ import {
   tagClass,
 } from "../styles/common";
 
-import bgImage from "../assets/hero.png";
+import bgImage from "../assets/background.jpg";
 
 const TOPICS = [
   "Artificial Intelligence",
